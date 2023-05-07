@@ -1,4 +1,4 @@
-// version.go : supporting libary to display the version information
+// version.go : supporting library to display the version information
 // for an application
 //
 // Copyright 2023 Simon Rowe <simon@wiremoons.com>.
@@ -18,7 +18,7 @@ import (
 	"text/template"
 )
 
-// versionInfo function collects details of the program being run and
+// Version function collects details of the program being run and
 // displays it on stdout
 func Version(appname string, appversion string) {
 	// set up a caser to create titlecase words
@@ -47,6 +47,6 @@ MIT License. Copyright © 2023 Simon Rowe.
 	t := template.Must(template.New("appinf").Parse(appInfoTmpl))
 
 	if err := t.Execute(os.Stdout, verData); err != nil {
-		fmt.Printf("FATAL ERROR: in function 'versionInfo()' when building template with err: %v", err)
+		fmt.Printf("FATAL ERROR: in function 'Version()' when building template with err: %v", err)
 	}
 }
