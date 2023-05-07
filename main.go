@@ -6,11 +6,17 @@
 // be found in the LICENSE file.
 package main
 
+// IMPORTS
+// import Go std library packages:
 import (
 	"flag"
-	gc "github.com/wiremoons/go-check/lib"
 	"os"
 	"path/filepath"
+)
+
+// import local supporting code:
+import (
+	gc "github.com/wiremoons/go-check/lib"
 )
 
 // GLOBAL VARIABLES
@@ -20,25 +26,28 @@ var appversion = "0.1.0"
 var appname string
 
 // below used by flag to store command line arguments given by the user
-var helpMe bool
+var help bool
 var version bool
+
+// CODE EXECUTION
 
 // init function always runs before main() so used here to
 // set-up the required command line flag variables
 func init() {
 	// IntVar; StringVar; BoolVar options for flag
 	// format required: variable, cmd line flag, initial value, description.
-	flag.BoolVar(&helpMe, "h", false, "\tdisplay help for this program.")
+	flag.BoolVar(&help, "h", false, "\tdisplay help for this program.")
 	flag.BoolVar(&version, "v", false, "\tdisplay the applications version.")
 	appname = filepath.Base(os.Args[0])
 }
 
+// main program execution runs as below - after `func init()`
 func main() {
 	// get the command line args passed to the program
 	flag.Parse()
 
 	// was the command line flag '-h' used?
-	if helpMe {
+	if help {
 		// call function to display information about the application
 		gc.Help()
 		// call to display the standard command line usage info
