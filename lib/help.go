@@ -1,8 +1,16 @@
+// help.go : supporting library to display the help information
+// for an application
+//
+// Copyright 2023 Simon Rowe <simon@wiremoons.com>.
+// All rights reserved.
+// Use of this source code is governed by a MIT license that can
+// be found in the LICENSE file.
+
 package lib
 
 import "fmt"
 
-// PrintHelp function prints out some basic help information for the user
+// Help function prints out some basic help information for the user
 // when requested via the command line flag '-h'
 func Help() {
 	helptext := `
