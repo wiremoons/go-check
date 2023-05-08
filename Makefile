@@ -62,6 +62,13 @@ clean:
 
 all: aarch32 aarch64 lin32 lin64 win32 win64 winarm64 mac64 free64 macarm64
 
+check:
+	go vet ./...
+	staticcheck ./...
+
+fmt:
+	go fmt ./...
+
 help:
 	@echo ""
 	@echo "The following make command are available:"
@@ -74,6 +81,8 @@ help:
 	@echo "              FreeBSD :  free64"
 	@echo "  clean   : delete previous build binaries"
 	@echo "  help    : displays this help message"
+	@echo "  fmt     : run 'go fmt' on all source code files"
+	@echo "  check   : run 'go vet' and 'staticcheck' on all source code files"
 	@echo ""
 	@echo "NB: default action is 'all'"
 	@echo "    built binaries are located in the sub directory: ./bin"
