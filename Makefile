@@ -14,25 +14,25 @@ CFLAGS=build -gcflags=all=-dwarf=false -ldflags="-s -w" -trimpath
 RFLAGS=run
 #
 # To build for Linux 32bit ARM7
-AARCH32=GOOS=linux GOARCH=arm
+AARCH32=GOOS=linux GOARCH=arm CGO_ENABLED=0
 # To build for Linux 64bit ARM64
-AARCH64=GOOS=linux GOARCH=arm64
+AARCH64=GOOS=linux GOARCH=arm64 CGO_ENABLED=0
 # To build for Linux 32bit
-LIN32=GOOS=linux GOARCH=386
+LIN32=GOOS=linux GOARCH=386 CGO_ENABLED=0
 # To build for Linux 64bit
-LIN64=GOOS=linux GOARCH=amd64
+LIN64=GOOS=linux GOARCH=amd64 CGO_ENABLED=0
 # To build Windows 32 bit version:
-WIN32=GOOS=windows GOARCH=386
+WIN32=GOOS=windows GOARCH=386 CGO_ENABLED=0
 # To build Windows 64 bit version:
-WIN64=GOOS=windows GOARCH=amd64
+WIN64=GOOS=windows GOARCH=amd64 CGO_ENABLED=0
 # To build Windows amr64 bit version:
-WINARM64=GOOS=windows GOARCH=arm64
+WINARM64=GOOS=windows GOARCH=arm64 CGO_ENABLED=0
 # To build macOS 64 bit version:
-MAC64=GOOS=darwin GOARCH=amd64
+MAC64=GOOS=darwin GOARCH=amd64 CGO_ENABLED=0
 # To build macOS M1 or M2 arm64 version:
-MACARM64=GOOS=darwin GOARCH=arm64
+MACARM64=GOOS=darwin GOARCH=arm64 CGO_ENABLED=0
 # To build FreeBSD 64 bit version:
-FREE64=GOOS=freebsd GOARCH=amd64
+FREE64=GOOS=freebsd GOARCH=amd64 CGO_ENABLED=0
 
 aarch32: $(SRC)
 	$(AARCH32) $(CC) $(CFLAGS) -o $(OUTNAME)-aarch32

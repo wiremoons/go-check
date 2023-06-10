@@ -38,6 +38,7 @@ func init() {
 	// format required: variable, cmd line flag, initial value, description.
 	flag.BoolVar(&help, "h", false, "\tdisplay help for this program.")
 	flag.BoolVar(&version, "v", false, "\tdisplay the applications version.")
+	// Identify the running programs name
 	appname = filepath.Base(os.Args[0])
 }
 

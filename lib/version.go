@@ -26,7 +26,7 @@ func Version(appname string, appversion string) {
 	// define a template for display on screen with place holders for data
 	const appInfoTmpl = `
 '{{.appname}}' is version {{.appversion}}.
-Built with Go Complier '{{.compiler}}' on Golang version '{{.version}}'.
+Built with Go Complier '{{.compiler}}' using Golang version '{{.version}}'.
 Executing on operating system '{{.operSys}}' with CPU architecture '{{.runArch}}'.
 Source: https://github.com/wiremoons/go-check/
 MIT License. Copyright © 2023 Simon Rowe.
