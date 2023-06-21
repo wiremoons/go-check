@@ -10,6 +10,7 @@ package main
 // import Go std library packages:
 import (
 	"flag"
+	"fmt"
 	"os"
 	"path/filepath"
 )
@@ -22,7 +23,7 @@ import (
 // GLOBAL VARIABLES
 
 // set the version of the app here
-var appversion = "0.1.0"
+var appversion = "0.2.0"
 var appname string
 
 // below used by flag to store command line arguments given by the user
@@ -62,5 +63,9 @@ func main() {
 		// exit the application
 		os.Exit(0)
 	}
+
+	ver := new(gc.Current)
+	ver.Populate()
+	fmt.Printf("%s", ver.VersionString())
 
 }

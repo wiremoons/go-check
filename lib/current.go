@@ -8,9 +8,14 @@
 package lib
 
 import (
-	"errors"
 	"fmt"
+	"io"
+	"net/http"
 	"os"
+	"os/exec"
+	"runtime"
+	"strings"
+	"time"
 )
 
 type Current struct {
@@ -18,20 +23,57 @@ type Current struct {
 	localVersion     string
 	currentUrl       string
 	availableVersion string
+	executingVersion string
 }
 
-func (c Current) localVer() error {
-	c.localVersion = os.Getenv("GOVERSION")
-	if c.localVersion != "" {
-		fmt.Printf("Found: %s\n", c.localVersion)
-		return nil
-	}
-	return errors.New("no local version of Go found")
+func (c *Current) Populate() {
+	c.execVer()
+	c.localVer()
+	c.availVersion()
 }
 
-func (c Current) String() (string, error) {
-	if c.availableVersion != "" && c.localVersion != "" {
-		return fmt.Sprintf("Avaiable: %s\nCurrent: %s\n", c.availableVersion, c.localVersion), nil
+func (c *Current) execVer() {
+	c.executingVersion = runtime.Version()
+	if c.executingVersion == "" {
+		fmt.Fprintf(os.Stderr, "no executing Go version found")
 	}
-	return "", errors.New("current version data not found")
+}
+
+// go env GOVERSION
+func (c *Current) localVer() {
+	out, err := exec.Command("go", "env", "GOVERSION").Output()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "failed to execute command 'go env GOVERSION': %v", err)
+	}
+	c.localVersion = strings.TrimSpace(string(out))
+}
+
+// https://go.dev/VERSION?m=text
+func (c *Current) availVersion() {
+	url := "https://go.dev/VERSION?m=text"
+
+	// configure the web request
+	var webClient = &http.Client{Timeout: 10 * time.Second}
+	resp, err := webClient.Get(url)
+	// exit app if web request errors
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "\nWARNING HTTP ERROR: %v\n", err)
+		runtime.Goexit()
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode == http.StatusOK {
+		bodyBytes, err := io.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "\nUnable to extract webpage content: %v\n", err)
+			c.availableVersion = "UNKNOWN"
+			return
+		}
+		c.availableVersion = string(bodyBytes)
+		return
+	}
+	fmt.Fprintf(os.Stderr, "failed to obtain available Go version from: https://go.dev/VERSION?m=text")
+}
+
+func (c Current) VersionString() string {
+	return fmt.Sprintf("\nGo Language Versions\n\nAvailable: '%s'\nInstalled: '%s'\nExecuting: '%s'\n", c.availableVersion, c.localVersion, c.executingVersion)
 }
