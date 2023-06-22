@@ -43,7 +43,9 @@ func (c *Current) execVer() {
 func (c *Current) localVer() {
 	out, err := exec.Command("go", "env", "GOVERSION").Output()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to execute command 'go env GOVERSION': %v", err)
+		// fmt.Fprintf(os.Stderr, "failed to execute command 'go env GOVERSION': %v", err)
+		c.localVersion = "not found"
+		return
 	}
 	c.localVersion = strings.TrimSpace(string(out))
 }
@@ -72,6 +74,7 @@ func (c *Current) availVersion() {
 		return
 	}
 	fmt.Fprintf(os.Stderr, "failed to obtain available Go version from: https://go.dev/VERSION?m=text")
+	c.availableVersion = "UNKNOWN"
 }
 
 func (c Current) VersionString() string {
