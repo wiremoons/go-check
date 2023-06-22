@@ -19,9 +19,9 @@ import (
 )
 
 type Current struct {
-	localPath        string
-	localVersion     string
-	currentUrl       string
+	// localPath        string
+	localVersion string
+	// currentUrl       string
 	availableVersion string
 	executingVersion string
 }
