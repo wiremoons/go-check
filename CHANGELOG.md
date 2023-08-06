@@ -1,3 +1,6 @@
+## v0.2.3
+- Add long form cli flags to compliment exising shortform.
+
 ## v0.2.2
 - Add Go version check functionality for installed, executing, and available to download
 - Comment out dead code identified by staticcheck
