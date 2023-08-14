@@ -21,13 +21,13 @@ import (
 // Version function collects details of the program being run and
 // displays it on stdout
 func Version(appname string, appversion string) {
-	// set up a caser to create titlecase words
+	// set up a caser to create title-case words
 	caser := cases.Title(language.English)
 	// define a template for display on screen with place holders for data
 	const appInfoTmpl = `
 '{{.appname}}' is version {{.appversion}}.
-Built with Go Complier '{{.compiler}}' using Golang version '{{.version}}'.
-Executing on operating system '{{.operSys}}' with CPU architecture '{{.runArch}}'.
+Built with Go Compiler '{{.compiler}}' using Golang version '{{.version}}'.
+Executing on operating system '{{.os_name}}' with CPU architecture '{{.runArch}}'.
 Source: https://github.com/wiremoons/go-check/
 MIT License. Copyright © 2023 Simon Rowe.
 `
@@ -36,7 +36,7 @@ MIT License. Copyright © 2023 Simon Rowe.
 	verData := map[string]interface{}{
 		"appname":    appname,
 		"appversion": appversion,
-		"operSys":    caser.String(runtime.GOOS),
+		"os_name":    caser.String(runtime.GOOS),
 		"runArch":    strings.ToUpper(runtime.GOARCH),
 		"compiler":   runtime.Compiler,
 		"version":    runtime.Version(),

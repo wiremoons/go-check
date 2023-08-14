@@ -23,7 +23,7 @@ import (
 // GLOBAL VARIABLES
 
 // set the version of the app here
-var appversion = "0.2.3"
+var appversion = "0.2.4"
 var appname string
 
 // below used by flag to store command line arguments given by the user

@@ -13,10 +13,10 @@ import "fmt"
 // Help function prints out some basic help information for the user
 // when requested via the command line flag '-h'
 func Help() {
-	helptext := `
+	helpText := `
 About the Application.
   This application provides a tool to check the current version of the
-  Go (golang) langauge developement software and compiler that is freely 
+  Go (golang) language development software and compiler that is freely 
   available from: https://go.dev/
 
 About Go.
@@ -32,5 +32,5 @@ Licence and Copyright.
   Copyright © 2023 Simon Rowe [wiremoons].
     `
 	// now output the above to screen
-	fmt.Println(helptext)
+	fmt.Println(helpText)
 }

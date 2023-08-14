@@ -26,6 +26,7 @@ type Current struct {
 	executingVersion string
 }
 
+// Populate function obtains the data required to
 func (c *Current) Populate() {
 	c.execVer()
 	c.localVer()
@@ -51,6 +52,11 @@ func (c *Current) localVer() {
 }
 
 // https://go.dev/VERSION?m=text
+// NB: in Aug 2023 the output for the above URL changes to add a second and third line:
+//
+//	1  go1.21.0
+//	2  time 2023-08-04T20:14:06Z
+//	3
 func (c *Current) availVersion() {
 	url := "https://go.dev/VERSION?m=text"
 
@@ -59,24 +65,31 @@ func (c *Current) availVersion() {
 	resp, err := webClient.Get(url)
 	// exit app if web request errors
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "\nWARNING HTTP ERROR: %v\n", err)
+		_, _ = fmt.Fprintf(os.Stderr, "\nWARNING HTTP ERROR: %v\n", err)
 		runtime.Goexit()
 	}
 	defer resp.Body.Close()
+
 	if resp.StatusCode == http.StatusOK {
 		bodyBytes, err := io.ReadAll(resp.Body)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "\nUnable to extract webpage content: %v\n", err)
+			_, _ = fmt.Fprintf(os.Stderr, "\nUnable to extract webpage content: %v\n", err)
 			c.availableVersion = "UNKNOWN"
 			return
 		}
-		c.availableVersion = string(bodyBytes)
-		return
+		fullVersion := string(bodyBytes)
+		if len(fullVersion) > 0 {
+			indexOfNewline := strings.Index(fullVersion, "\n")
+			if indexOfNewline > 0 {
+				c.availableVersion = fullVersion[:indexOfNewline]
+				return
+			}
+		}
 	}
-	fmt.Fprintf(os.Stderr, "failed to obtain available Go version from: https://go.dev/VERSION?m=text")
+	_, _ = fmt.Fprintf(os.Stderr, "failed to obtain available Go version from: https://go.dev/VERSION?m=text")
 	c.availableVersion = "UNKNOWN"
 }
 
-func (c Current) VersionString() string {
+func (c *Current) VersionString() string {
 	return fmt.Sprintf("\nGo Language Versions\n\nAvailable: '%s'\nInstalled: '%s'\nExecuting: '%s'\n", c.availableVersion, c.localVersion, c.executingVersion)
 }
