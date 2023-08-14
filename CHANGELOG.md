@@ -2,6 +2,7 @@
 - Parse of online file to obtain current Go version updated - new code needed to restore functionality as format altered.
 - Fix multiple spelling error in code comments.
 - Add a `VERSION` file to the GitHub repo for tracking.
+- Update the `README.md` file.
 
 ## v0.2.3
 - Add long form cli flags to compliment exising short-form.

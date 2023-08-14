@@ -1,11 +1,11 @@
 
-## About the Application.
-This application provides a tool to check the current version of the
-Go (golang) langauge developement software and compiler that is freely 
-available from: https://go.dev/
+## About `go-check`.
+This application provides a tool to check:
+- the current version of the _Go_ language;
+- any installed version;
+- the version being executed by the program.
 
-It also shows the current version of the Go SDK installed when found, as well 
-as the version use to build the applications itself.
+The current _Go_ (golang) development software and compiler that is freely available from: https://go.dev/
 
 The `go-check` application is command line program that has been testing on 
 *Windows*, *Linux* (Ubuntu on amd64 & aarch64), and *macOS* (arm64).
@@ -21,12 +21,12 @@ Installed: 'go1.20.7'
 Executing: 'go1.20.7'
 ```
 
-## About Go.
+## About Go.
 Go is an open-source programming language supported by Google, that has 
 built-in concurrency capabilities and a robust extensive standard library.
 
-## Licence and Copyright.
+## Licence and Copyright.
 The program is provided under the opensource MIT License.
-Copyright © 2023 Simon Rowe [wiremoons].
+Copyright © 2023 Simon Rowe [wiremoons]. View copy [here](./LICENSE).
     
 
