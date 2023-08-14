@@ -23,7 +23,7 @@ import (
 // GLOBAL VARIABLES
 
 // set the version of the app here
-var appversion = "0.2.4"
+var appversion = "0.2.5"
 var appname string
 
 // below used by flag to store command line arguments given by the user
@@ -62,12 +62,11 @@ func main() {
 	// was the command line flag '-v' used?
 	if version {
 		gc.Version(appname, appversion)
-		// exit the application
 		os.Exit(0)
 	}
 
+	// default execution: create version structure, populate the data, and output it.
 	ver := new(gc.Current)
 	ver.Populate()
 	fmt.Printf("%s", ver.VersionString())
-
 }

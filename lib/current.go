@@ -8,6 +8,7 @@
 package lib
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -19,9 +20,7 @@ import (
 )
 
 type Current struct {
-	// localPath        string
-	localVersion string
-	// currentUrl       string
+	localVersion     string
 	availableVersion string
 	executingVersion string
 }
@@ -33,18 +32,19 @@ func (c *Current) Populate() {
 	c.availVersion()
 }
 
+// execVer obtains the current Go version this application is compiled with
 func (c *Current) execVer() {
 	c.executingVersion = runtime.Version()
 	if c.executingVersion == "" {
-		fmt.Fprintf(os.Stderr, "no executing Go version found")
+		_, _ = fmt.Fprintf(os.Stderr, "no executing Go version found")
 	}
 }
 
-// go env GOVERSION
+// localVer obtains the `go env GOVERSION` data
 func (c *Current) localVer() {
 	out, err := exec.Command("go", "env", "GOVERSION").Output()
 	if err != nil {
-		// fmt.Fprintf(os.Stderr, "failed to execute command 'go env GOVERSION': %v", err)
+		// _,_ = fmt.Fprintf(os.Stderr, "failed to execute command 'go env GOVERSION': %v", err)
 		c.localVersion = "not found"
 		return
 	}
@@ -77,19 +77,28 @@ func (c *Current) availVersion() {
 			c.availableVersion = "UNKNOWN"
 			return
 		}
-		fullVersion := string(bodyBytes)
-		if len(fullVersion) > 0 {
-			indexOfNewline := strings.Index(fullVersion, "\n")
-			if indexOfNewline > 0 {
-				c.availableVersion = fullVersion[:indexOfNewline]
-				return
-			}
+		if c.availableVersion, err = extractVersion(string(bodyBytes)); err != nil {
+			_, _ = fmt.Fprintf(os.Stderr, "failed to extract available Go version from: https://go.dev/VERSION?m=text")
+			c.availableVersion = "UNKNOWN"
 		}
+		return
 	}
 	_, _ = fmt.Fprintf(os.Stderr, "failed to obtain available Go version from: https://go.dev/VERSION?m=text")
 	c.availableVersion = "UNKNOWN"
 }
 
+// VersionString creates a new string containing all the obtained Go version data
 func (c *Current) VersionString() string {
 	return fmt.Sprintf("\nGo Language Versions\n\nAvailable: '%s'\nInstalled: '%s'\nExecuting: '%s'\n", c.availableVersion, c.localVersion, c.executingVersion)
+}
+
+// extractVersion removes the current Go version from the `webBody` data if possible
+func extractVersion(webBody string) (string, error) {
+	if len(webBody) > 0 {
+		indexOfNewline := strings.Index(webBody, "\n")
+		if indexOfNewline > 0 {
+			return webBody[:indexOfNewline], nil
+		}
+	}
+	return "", errors.New("online version data is empty")
 }

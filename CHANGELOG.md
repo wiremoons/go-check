@@ -1,3 +1,6 @@
+## ## v0.2.5
+- refactor new code to extract version data from website.
+
 ## v0.2.4
 - Parse of online file to obtain current Go version updated - new code needed to restore functionality as format altered.
 - Fix multiple spelling error in code comments.
