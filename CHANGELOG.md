@@ -1,3 +1,6 @@
+## ## v0.2.6
+- split `current.go` code into shorter specific functions.
+
 ## ## v0.2.5
 - refactor new code to extract version data from website.
 
