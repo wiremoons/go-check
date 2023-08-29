@@ -29,6 +29,7 @@ var appname string
 // below used by flag to store command line arguments given by the user
 var help bool
 var version bool
+var remove bool
 
 // CODE EXECUTION
 
@@ -41,6 +42,8 @@ func init() {
 	flag.BoolVar(&help, "help", false, "")
 	flag.BoolVar(&version, "v", false, "\tdisplay the applications version.")
 	flag.BoolVar(&version, "version", false, "")
+	flag.BoolVar(&remove, "r", false, "\tremove the Go SDK installation.")
+	flag.BoolVar(&remove, "remove", false, "")
 	// Identify the running programs name
 	appname = filepath.Base(os.Args[0])
 }
@@ -60,6 +63,13 @@ func main() {
 	}
 
 	// was the command line flag '-v' used?
+	if remove {
+		rem := new(gc.Installed)
+		rem.RemoveInstalled()
+		os.Exit(0)
+	}
+
+	// was the command line flag '-v' used?
 	if version {
 		gc.Version(appname, appversion)
 		os.Exit(0)
@@ -69,4 +79,5 @@ func main() {
 	ver := new(gc.Current)
 	ver.Populate()
 	fmt.Printf("%s", ver.VersionString())
+	os.Exit(0)
 }
