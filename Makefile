@@ -7,7 +7,7 @@
 default: all ;
 
 SRC=main.go 
-OUTNAME=bin/go-check
+OUTNAME=build/go-check
 # Go compiler settings
 CC=go
 CFLAGS=build -gcflags=all=-dwarf=false -ldflags="-s -w" -trimpath
