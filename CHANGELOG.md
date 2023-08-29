@@ -1,4 +1,8 @@
-## ## v0.2.6
+## v0.3.0
+- add work in progress '--remove/-r' feature to delete the Go installation.
+- move built binaries from 'bin/' to 'build/' and update the `Makefile`.
+
+## v0.2.6
 - split `current.go` code into shorter specific functions.
 
 ## ## v0.2.5
