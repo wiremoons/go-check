@@ -36,6 +36,7 @@
 
 # Compiled versions
 bin/
+build/
 # Compiled versions from 'go build'
 go-check
 go-check.exe
